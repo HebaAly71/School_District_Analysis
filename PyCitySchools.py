@@ -371,3 +371,60 @@ spending_summary_df = pd.DataFrame({"Average Math Score" : spending_math_scores,
 spending_summary_df
 
 #%%
+# Formatting
+spending_summary_df["Average Math Score"] = spending_summary_df["Average Math Score"].map("{:.1f}".format)
+
+spending_summary_df["Average Reading Score"] = spending_summary_df["Average Reading Score"].map("{:.1f}".format)
+
+spending_summary_df["% Passing Math"] = spending_summary_df["% Passing Math"].map("{:.0f}".format)
+
+spending_summary_df["% Passing Reading"] = spending_summary_df["% Passing Reading"].map("{:.0f}".format)
+
+spending_summary_df["% Overall Passing"] = spending_summary_df["% Overall Passing"].map("{:.0f}".format)
+
+spending_summary_df
+
+# %%
+# Establish the bins.
+size_bins = [0, 1000, 2000, 5000]
+group_names = ["Small (<1000)", "Medium (1000-2000)", "Large (2000-5000)"]
+
+#%%
+# Categorize spending based on the bins.
+per_school_summary_df["School Size"] = pd.cut(per_school_summary_df["Total Students"], size_bins, labels=group_names)
+
+per_school_summary_df.head()
+
+# %%
+# Calculate averages for the desired columns.
+size_math_scores = per_school_summary_df.groupby(["School Size"]).mean()["Average Math Score"]
+
+size_reading_scores = per_school_summary_df.groupby(["School Size"]).mean()["Average Reading Score"]
+
+size_passing_math = per_school_summary_df.groupby(["School Size"]).mean()["% Passing Math"]
+
+size_passing_reading = per_school_summary_df.groupby(["School Size"]).mean()["% Passing Reading"]
+
+size_overall_passing = (size_passing_math + size_passing_reading) / 2
+
+# %%
+# Assemble into DataFrame.
+size_summary_df = pd.DataFrame({"Average Math Score" : size_math_scores,"Average Reading Score": size_reading_scores,"% Passing Math": size_passing_math,"% Passing Reading": size_passing_reading,"% Overall Passing": size_overall_passing})
+
+size_summary_df
+
+# %%
+# Formatting.
+size_summary_df["Average Math Score"] = size_summary_df["Average Math Score"].map("{:.1f}".format)
+
+size_summary_df["Average Reading Score"] = size_summary_df["Average Reading Score"].map("{:.1f}".format)
+
+size_summary_df["% Passing Math"] = size_summary_df["% Passing Math"].map("{:.0f}".format)
+
+size_summary_df["% Passing Reading"] = size_summary_df["% Passing Reading"].map("{:.0f}".format)
+
+size_summary_df["% Overall Passing"] = size_summary_df["% Overall Passing"].map("{:.0f}".format)
+
+size_summary_df
+
+# %%
