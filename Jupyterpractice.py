@@ -7,7 +7,7 @@ import pandas as pd
 #school_series = pd.Series(high_schools)
 #school_series
 # %%
-print(school_series.values)
+#print(school_series.values)
 
 # %%
 # A dictionary of high schools
