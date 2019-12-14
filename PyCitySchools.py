@@ -232,6 +232,40 @@ top_schools.head()
 bottom_schools = per_school_summary_df.sort_values(["% Overall Passing"], ascending=True)
 
 bottom_schools.head()
+#%%
+# Create a grade level DataFrames.
+ninth_graders = school_data_complete_df[(school_data_complete_df["grade"] == "9th")]
+
+tenth_graders = school_data_complete_df[(school_data_complete_df["grade"] == "10th")]
+
+eleventh_graders = school_data_complete_df[(school_data_complete_df["grade"] == "11th")]
+
+twelfth_graders = school_data_complete_df[(school_data_complete_df["grade"] == "12th")]
+#%%
+ninth_graders.head()
+#%%
+# Group each school Series by the school name for the average math score.
+ninth_grade_math_scores = ninth_graders.groupby(["school_name"]).mean()["math_score"]
+
+tenth_grade_math_scores = tenth_graders.groupby(["school_name"]).mean()["math_score"]
+
+eleventh_grade_math_scores = eleventh_graders.groupby(["school_name"]).mean()["math_score"]
+
+twelfth_grade_math_scores = twelfth_graders.groupby(["school_name"]).mean()["math_score"]
+#%%
+eleventh_grade_math_scores
+#%%
+# Group each school Series by the school name for the average reading score.
+ninth_grade_reading_scores = ninth_graders.groupby(["school_name"]).mean()["reading_score"]
+
+tenth_grade_reading_scores = tenth_graders.groupby(["school_name"]).mean()["reading_score"]
+
+eleventh_grade_reading_scores = eleventh_graders.groupby(["school_name"]).mean()["reading_score"]
+
+twelfth_grade_reading_scores = twelfth_graders.groupby(["school_name"]).mean()["reading_score"]
+
+#%%
+twelfth_grade_reading_scores
 # %%
 groupby_school_df = school_data_complete_df.groupby('school_name')
 groupby_school_totalbudget = groupby_school_df['budget'].sum()   
