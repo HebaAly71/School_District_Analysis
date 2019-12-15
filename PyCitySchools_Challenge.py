@@ -38,6 +38,7 @@ for word in prefixes_suffixes:
 #%%
 student_data_df.head(10)
 #%%
+#Replace the 9th graders readgin score and math scores of Thomas high School to Nan
 student_data_df.loc[(student_data_df['grade'] == '9th') & (student_data_df['school_name'] == 'Thomas High School'), 'math_score'] = np.nan
 student_data_df.loc[(student_data_df['grade'] == '9th') & (student_data_df['school_name'] == 'Thomas High School'), 'reading_score'] = np.nan
 student_data_df
@@ -156,10 +157,6 @@ per_school_counts
 per_school_budget = school_data_df.set_index(["school_name"])["budget"]
 per_school_budget
 #%%
-groupbyschool_budget = school_data_complete_df.groupby('school_name')
-groupbyschool_totbudget = groupbyschool_budget['budget'].value_counts()
-groupbyschool_totbudget
-#%%
 # Calculate the per capita spending.
 per_school_capita = per_school_budget / per_school_counts
 per_school_capita
@@ -174,11 +171,6 @@ per_school_math = school_data_complete_df.groupby(["school_name"]).mean()["math_
 per_school_reading = school_data_complete_df.groupby(["school_name"]).mean()["reading_score"]
 #%%
 per_school_math
-
-#%%
-groupbyschool_math_score = school_data_complete_df.groupby('school_name')
-groupbyschool_Avg_math = groupbyschool_math_score[(groupbyschool_math_score['math_score']>=70)].mean()
-groupbyschool_Avg_math
 #%%
 # Calculate the passing scores by creating a filtered DataFrame.
 per_school_passing_math = school_data_complete_df[(school_data_complete_df["math_score"] >= 70)]
@@ -210,7 +202,7 @@ per_school_summary_df = pd.DataFrame({
            "% Passing Math": per_school_passing_math,
            "% Passing Reading": per_school_passing_reading,
            "% Overall Passing": per_overall_passing_percentage})
-per_school_summary_df.head()
+per_school_summary_df
 #%%
 # Format the Total School Budget and the Per Student Budget columns.
 per_school_summary_df["Total School Budget"] = per_school_summary_df["Total School Budget"].map("${:,.2f}".format)
@@ -280,7 +272,7 @@ math_scores_by_grade = pd.DataFrame({
                "11th": eleventh_grade_math_scores,
                "12th": twelfth_grade_math_scores})
 
-math_scores_by_grade.head()
+math_scores_by_grade
 #%%
 # Combine each Series for average reading scores by school into single DataFrame.
 reading_scores_by_grade = pd.DataFrame({
@@ -289,12 +281,7 @@ reading_scores_by_grade = pd.DataFrame({
               "11th": eleventh_grade_reading_scores,
               "12th": twelfth_grade_reading_scores})
 
-reading_scores_by_grade.head()
-# %%
-groupby_school_df = school_data_complete_df.groupby('school_name')
-groupby_school_totalbudget = groupby_school_df['budget'].sum()   
-
-
+reading_scores_by_grade  
 # %%
 # Format each grade column.
 math_scores_by_grade["9th"] = math_scores_by_grade["9th"].map("{:.1f}".format)
@@ -335,6 +322,8 @@ reading_scores_by_grade.head()
 #%%
 # Get the descriptive statistics for the per_school_capita.
 per_school_capita.describe()# Cut the per_school_capita into the spending ranges.
+#%%
+
 spending_bins = [0, 585, 615, 645, 675]
 pd.cut(per_school_capita, spending_bins)
 #%%
@@ -432,12 +421,6 @@ size_summary_df["% Passing Reading"] = size_summary_df["% Passing Reading"].map(
 size_summary_df["% Overall Passing"] = size_summary_df["% Overall Passing"].map("{:.0f}".format)
 
 size_summary_df
-
-# %%
-groupby_schooltype_df = per_school_summary_df.groupby('School Type')
-groupby_schooltype_df = groupby_schooltype_df['Average Math Score', 'Average Reading Score', '% Passing Math', '% Passing Reading'].mean()
-groupby_schooltype_df
-
 #%%
 # Calculate averages for the desired columns. 
 type_math_scores = per_school_summary_df.groupby(["School Type"]).mean()["Average Math Score"]
